@@ -6,14 +6,12 @@ interface Props {
 
 export const ProductList = ({ products }: Props) => {
   return (
-    <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 justify-center max-w-max">
-
-      {
-        products.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
-        ))
-
-      }
+    <div className="mt-2 columns-1 sm:columns-2 md:columns-3 xl:columns-4 masonry">
+      {products.map((product: Product) => (
+        <div key={product.id} className="masonry-item">
+          <ProductCard product={product} />
+        </div>
+      ))}
     </div>
   )
 }
