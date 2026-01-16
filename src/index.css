@@ -7,3 +7,17 @@
 html,body {
   background-color: black;
 }
+
+/* Masonry layout helpers */
+.masonry {
+  column-gap: 1rem;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
