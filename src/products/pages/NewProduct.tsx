@@ -19,9 +19,9 @@ export const NewProduct = () => {
 
   const { control, handleSubmit, watch } = useForm<FormInputs>({
     defaultValues: {
-      title: '',
-      price: 0,
-      description: '',
+      title: 'Título del producto',
+      price: 120,
+      description: 'lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       category: "men's clothing",
       image: 'https://cdn.grupoelcorteingles.es/statics/manager/contents/images/uploads/2025/12/Bk-ILoK6b-g.jpeg?impolicy=Resize&width=800&height=800',
     }
