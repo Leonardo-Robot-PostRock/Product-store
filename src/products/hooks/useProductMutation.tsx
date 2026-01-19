@@ -9,6 +9,7 @@ export const useProductMutation = () => {
     const mutation = useMutation({
         mutationFn: productActions.createProduct,
         onMutate: (product) => {
+            console.log('Mutando - Optimistic Update');
 
             const optimisticProduct = { id: Math.random(), ...product };
 
@@ -16,16 +17,28 @@ export const useProductMutation = () => {
                 ['products', { filterKey: product.category }], (old) => (old ? [...old, optimisticProduct] : [optimisticProduct])
             )
 
-            console.log('Mutación iniciada con:', product);
+            return { optimisticProduct };
+
         },
 
-        onSuccess: (product) => {
+        onSuccess: (product, _variables, context) => {
             // queryClient.invalidateQueries({ queryKey: ['products', { 'filterKey': product.category }] });
 
+            // console.log({ product, variables, context });
+
+            queryClient.removeQueries({ queryKey: ["product", context?.optimisticProduct.id] });
+
             queryClient.setQueryData<Product[]>(
-                ['products', { filterKey: product.category }], (old) => (old ? [...old, product] : [product])
+                ['products', { filterKey: product.category }], (old) => {
+                    if (!old) return [product];
+
+                    return old.map(cacheProduct => {
+                        return cacheProduct.id === context?.optimisticProduct.id ? product : cacheProduct;
+                    })
+                }
             )
         },
+
         onSettled: () => {
             console.log('Mutación finalizada');
         }
