@@ -14,15 +14,17 @@ export interface FormInputs {
 
 export const NewProduct = () => {
 
-  const { control, handleSubmit } = useForm<FormInputs>({
+  const { control, handleSubmit, watch } = useForm<FormInputs>({
     defaultValues: {
       title: '',
       price: 0,
       description: '',
-      category: "",
-      image: '',
+      category: "men's clothing",
+      image: 'https://cdn.grupoelcorteingles.es/statics/manager/contents/images/uploads/2025/12/Bk-ILoK6b-g.jpeg?impolicy=Resize&width=800&height=800',
     }
   })
+
+  const newImage = watch('image');
 
   const onSubmit = (data: FormInputs) => {
     console.log(data);
@@ -59,9 +61,9 @@ export const NewProduct = () => {
               render={({ field }) => (
                 <Input
                   value={field.value.toString()}
-                  onChange={field.onChange}
+                  onChange={(event) => field.onChange(+event.target.value)}
                   className="mt-2"
-                  type="text"
+                  type="number"
                   label="Precio del producto"
                 />
               )}
@@ -124,7 +126,7 @@ export const NewProduct = () => {
           }}>
 
             <Image
-              src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
+              src={newImage}
             />
           </div>
 
