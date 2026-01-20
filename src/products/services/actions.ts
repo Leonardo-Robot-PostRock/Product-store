@@ -45,6 +45,9 @@ export interface ProductLike {
 export const createProduct = async (product: ProductLike) => {
     await sleep(5);
 
+    //Simular error para optimistic error handling en Tanstack Query
+    throw new Error('Error al crear el producto');
+
     const { data } = await productsApi.post<Product>(`/products`, product);
 
     return data;

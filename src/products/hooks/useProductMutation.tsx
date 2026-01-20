@@ -39,6 +39,22 @@ export const useProductMutation = () => {
             )
         },
 
+        onError: (error, variables, context) => {
+            console.log({ error, variables, context });
+
+            queryClient.removeQueries({ queryKey: ["product", context?.optimisticProduct.id] });
+
+            queryClient.setQueryData<Product[]>(
+                ['products', { filterKey: variables.category }], (old) => {
+                    if (!old) return [];
+
+                    return old.filter(cacheProduct => {
+                        return cacheProduct.id !== context?.optimisticProduct.id;
+                    })
+                }
+            )
+        },
+
         onSettled: () => {
             console.log('Mutación finalizada');
         }
